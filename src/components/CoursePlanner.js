@@ -6,6 +6,7 @@ import { Login } from "./auth/Login"
 import { Register } from "./auth/Register"
 import { NavBar } from "./nav/NavBar"
 import { AddClass } from "./pages/AddClass"
+import { Dashboard } from "./pages/Dashboard"
 import { UpdateGoals } from "./pages/UpdateGoals"
 
 
@@ -24,6 +25,7 @@ export const CoursePlanner=()=>{
                         <h1 className="title--main">Course Planner</h1>
                         {studentObject ? <Greeting />:""}
                         <div>What will you learn today?</div>
+                        {studentObject ? <Dashboard />:""}
                         <Outlet />
                     </React.Fragment>
                 </Authorized>
