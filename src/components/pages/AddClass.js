@@ -86,13 +86,6 @@ export const AddClass = () => {
             body: JSON.stringify(lesson)
             }))])
 
-         
-        
-        // fetch(`http://localhost:8088/studentCourses`,coursePost )
-        //     .then(response => response.json())
-        //     .then(()=>{
-        //         navigate("/")
-        //     })
     }
 
     return (
