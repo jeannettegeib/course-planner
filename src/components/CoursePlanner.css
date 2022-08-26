@@ -1,0 +1,18 @@
+.courseContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+.lessonContainer {
+    border: 1px dotted #3BCEAC;
+    padding: 1em;
+    margin: 0.5em;
+}
+th {
+    border-bottom: 1px solid #EE4266;
+  }
+td {
+    padding: 1em;
+    max-width: 20em;
+   
+  }

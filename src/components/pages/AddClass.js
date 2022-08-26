@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { getAllCourses, getStudentCourses, getLessonsByCourseId } from "../APIManager"
 import { useNavigate } from "react-router-dom"
+import { addBusinessDays, differenceInBusinessDays, format  } from 'date-fns'
 
 const loggedInStudent = localStorage.getItem("planner_student")
 const studentObject = JSON.parse(loggedInStudent)
@@ -17,6 +18,7 @@ export const AddClass = () => {
 
     const navigate=useNavigate()
     // const [courseList, setAvailableCourses]=useState([])
+   
 
     useEffect(
         ()=>{
@@ -26,24 +28,20 @@ export const AddClass = () => {
         [selectedCourse]
     )
 
-
     useEffect(
         () => {
             getAllCourses()
                 .then((courseArray) => { setAllCourses(courseArray) })
-
         }, []
     )
 
     useEffect(
         () => {
-            fetch(`http://localhost:8088/studentCourses?studentId=${studentObjectId}&_expand=course`)
-                .then(r => r.json())
+            getStudentCourses(studentObjectId)
                 .then((studentCourseArray) => { setEnrolledCourses(studentCourseArray) })
         }, [allCourses]
     )
-
-
+    
     // let availableCourses = [] 
     // availableCourses= allCourses.filter((course) => {
     //                 // if at least one the things in the studentCourse array contain this courseId 
@@ -56,16 +54,29 @@ export const AddClass = () => {
     //             })
     // console.log(availableCourses)
     let populateStudentLessons=[]
-    lessonsByCourseId.forEach((lesson)=>{populateStudentLessons.push({
-        studentId: studentObjectId,
-        lessonId: lesson.id,
-        complete: false
-    })})
-    console.log(populateStudentLessons)
-
+    
     const handleSaveButtonClick = (evt) => {
         evt.preventDefault()
-        console.log("You clicked the button!")
+        
+        const today = new Date();
+        const totalSchoolDays= differenceInBusinessDays(new Date(selectedDate), today);
+        const lessonCount=lessonsByCourseId.length;
+        const daysPerLesson= Math.floor(totalSchoolDays/lessonCount);
+
+        console.log(totalSchoolDays)
+        console.log(lessonCount)
+        console.log(daysPerLesson)
+        let dayDue={}
+        lessonsByCourseId.forEach((lesson, i)=>{
+            console.log(i)
+
+            populateStudentLessons.push({
+            studentId: studentObjectId,
+            lessonId: lesson.id,
+            dueDate: ((i===0) ? dayDue=addBusinessDays(today, daysPerLesson) : dayDue=addBusinessDays(dayDue, daysPerLesson)),
+            complete: false
+        })})
+
         const selectionToSendToAPI = {
             courseId: selectedCourse,
             studentId: studentObjectId,
@@ -85,13 +96,18 @@ export const AddClass = () => {
             headers: {"Content-type": "application/json"},
             body: JSON.stringify(lesson)
             }))])
+            .then(window.alert("Added!"))
+            .then(navigate("/"))
 
     }
+
+    
 
     return (
         <React.Fragment>
             <h2>Add a New Course Plan</h2>
             <div className="quote">"The mind, once stretched by a new idea, never returns to its original dimensions." Ralph Waldo Emerson</div>
+            <div>Today is  </div>
             <br></br>
             <fieldset>
                 <section className="courseOptions">
@@ -100,7 +116,7 @@ export const AddClass = () => {
                         (evt) => {
                             setSelectedCourse(+evt.target.value)
                         }
-                    }>
+                    }><option value="0">Select a Course</option>
                         {
                             allCourses.map((course) => {
                                 return <option value={course.id}

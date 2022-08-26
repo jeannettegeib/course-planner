@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getStudentLessons, getStudentCourses } from "../APIManager";
-
+import { format, getDay, parseJSON } from 'date-fns'
+import "../CoursePlanner.css"
 export const Dashboard = ()=>{
     const [studentLessons, setStudentLessons]=useState([])
     const [studentCourses, setStudentCourses]=useState([])
@@ -11,7 +12,32 @@ export const Dashboard = ()=>{
 
     useEffect(()=>{
         getStudentLessons(studentObjectId)
-        .then((studentLessonsArray)=>{setStudentLessons(studentLessonsArray)})
+        .then((studentLessonsArray)=>{
+            
+            
+            const parsedStudentLessonsArray=studentLessonsArray.map((lesson)=>{
+               
+              
+              return {"studentId": lesson.studentId,
+                    "lessonId": lesson.lessonId,
+                    "dueDate": parseJSON(lesson.dueDate),
+                    "complete": lesson.complete,
+                    "id": lesson.id,
+                    "lesson": {
+                        "id":lesson.lesson.id,
+                        "courseId": lesson.lesson.courseId,
+                        "order": lesson.lesson.order,
+                        "name": lesson.lesson.name,
+                        "multiday": lesson.lesson.multiday
+                    }                        
+                    }
+            
+            })
+            setStudentLessons(parsedStudentLessonsArray) 
+        })
+       
+        
+            
     },[])
     useEffect(()=>{
         getStudentCourses(studentObjectId)
@@ -26,17 +52,33 @@ export const Dashboard = ()=>{
         {
             studentCourses.map((course)=>{
                 return <div className="course lessonContainer">
-                    <h3>{course.course.name}</h3>
+                    <h3><center>{course.course.name}</center></h3>
+                    <table>
+                        <tr>
+                            <th>Lesson</th>
+                            <th>Due Date</th>
+                        </tr>
                     {
                     studentLessons.map((lesson)=>{
-                        return(lesson.lesson.courseId ===course.course.id)
+                        if (lesson.lesson){
+
+                        
+                        return (lesson.lesson.courseId ===course.course.id)
                         ? 
-                        <div className="eachLesson" key={lesson.lessonId}>
-                        Lesson {lesson.lesson.order}-{lesson.lesson.name}
-                        </div>
+                        <tr className="eachLesson" key={lesson.lessonId}>
+                            <td>
+                                Lesson {lesson.lesson.order}-{lesson.lesson.name}
+                            </td>
+                            <td>
+                                {format(lesson.dueDate, 'eee MMM do')}
+                            </td>
+                        
+                        </tr>
                         :""
+                    }
                     })
                     }
+                    </table>
                 </div>
             }
             )
