@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { getStudentLessons, getStudentCourses } from "../APIManager";
-import { format, getDay, parseJSON } from 'date-fns'
+import { format, parse, parseJSON } from 'date-fns'
+import { useNavigate } from "react-router-dom"
 import "../CoursePlanner.css"
+
+
 export const Dashboard = ()=>{
     const [studentLessons, setStudentLessons]=useState([])
     const [studentCourses, setStudentCourses]=useState([])
-
+    const navigate = useNavigate()
     const loggedInStudent=localStorage.getItem("planner_student")
     const studentObject=JSON.parse(loggedInStudent)
     const studentObjectId = studentObject.id
@@ -41,7 +44,22 @@ export const Dashboard = ()=>{
     },[])
     useEffect(()=>{
         getStudentCourses(studentObjectId)
-        .then((studentCoursesArray)=>{setStudentCourses(studentCoursesArray)})
+        .then((studentCoursesArray)=>{
+            const parsedStudentCoursesArray=studentCoursesArray.map(
+                (course)=>{
+                    return {
+                        "courseId": course.courseId,
+                        "studentId": course.studentId,
+                        "targetDate": parse(course.targetDate,"yyyy-MM-dd", new Date()),
+                        "id": course.id,
+                        "course": {
+                            "id": course.course.id,
+                            "name": course.course.name
+                            } 
+                    }
+                }
+            )
+            setStudentCourses(parsedStudentCoursesArray)})
     },[])
    
     
@@ -53,6 +71,14 @@ export const Dashboard = ()=>{
             studentCourses.map((course)=>{
                 return <div className="course lessonContainer">
                     <h3><center>{course.course.name}</center></h3>
+                    <div>
+                        Your target completion date is <b>{format(course.targetDate, 'MMM dd, y')}</b> 
+                        <button 
+                        className="updateGoal"
+                        onClick={ () => navigate("./updateGoals") }
+                        >Update Goal
+                        </button>
+                    </div>
                     <table>
                         <tr>
                             <th>Lesson</th>
