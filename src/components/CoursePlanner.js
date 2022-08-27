@@ -7,7 +7,7 @@ import { Register } from "./auth/Register"
 import { NavBar } from "./nav/NavBar"
 import { AddClass } from "./pages/AddClass"
 import { Dashboard } from "./pages/Dashboard"
-import { UpdateGoals } from "./pages/UpdateGoals"
+import { UpdateGoal } from "./pages/UpdateGoal"
 
 
 export const CoursePlanner=()=>{
@@ -33,7 +33,7 @@ export const CoursePlanner=()=>{
             />
              
             <Route path="/addClass" element={<AddClass />} />
-            <Route path="/updateGoals" element={<UpdateGoals />} />
+            <Route path="/updateGoal/:studentCourseId" element={<UpdateGoal />} />
             
         </Routes>
         

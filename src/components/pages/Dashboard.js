@@ -75,7 +75,7 @@ export const Dashboard = ()=>{
                         Your target completion date is <b>{format(course.targetDate, 'MMM dd, y')}</b> 
                         <button 
                         className="updateGoal"
-                        onClick={ () => navigate("./updateGoals") }
+                        onClick={ () => navigate(`./updateGoal/${course.courseId}`) }
                         >Update Goal
                         </button>
                     </div>
