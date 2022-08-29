@@ -73,6 +73,7 @@ export const AddClass = () => {
             populateStudentLessons.push({
             studentId: studentObjectId,
             lessonId: lesson.id,
+            courseId: selectedCourse,
             dueDate: ((i===0) ? dayDue=addBusinessDays(today, daysPerLesson) : dayDue=addBusinessDays(dayDue, daysPerLesson)),
             complete: false
         })})
