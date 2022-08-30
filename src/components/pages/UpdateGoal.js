@@ -8,6 +8,7 @@ export const UpdateGoal=()=>{
     const {studentCourseId}=useParams()
     const navigate = useNavigate()
     console.log("student course id",studentCourseId)
+    //State 1
     const [course, updateCourse]=useState({
             courseId: 0,
             studentId: 0,
@@ -18,8 +19,9 @@ export const UpdateGoal=()=>{
               name: ""
             }
     })
-
+    //State 2
     const [studentLessons, setStudentLessons]=useState([])
+
     const loggedInStudent=localStorage.getItem("planner_student")
     const studentObject=JSON.parse(loggedInStudent)
     const studentObjectId = studentObject.id

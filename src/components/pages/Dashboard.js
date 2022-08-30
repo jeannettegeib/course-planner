@@ -8,17 +8,20 @@ import "../CoursePlanner.css"
 export const Dashboard = ()=>{
     const [studentLessons, setStudentLessons]=useState([])
     const [studentCourses, setStudentCourses]=useState([])
+    //State 3
+    const [refilter, setRefilter]=useState(false)
     const navigate = useNavigate()
     const loggedInStudent=localStorage.getItem("planner_student")
     const studentObject=JSON.parse(loggedInStudent)
     const studentObjectId = studentObject.id
 
-    useEffect(()=>{
+    const getParsedFilteredStudentLessons=(studentObjectId)=>{
         getStudentLessons(studentObjectId)
         .then((studentLessonsArray)=>{
             
-            
-            const parsedStudentLessonsArray=studentLessonsArray.map((lesson)=>{
+            const filteredStudentLessonsArray=studentLessonsArray.filter((lesson)=>lesson.complete===false)
+            console.log(filteredStudentLessonsArray)
+            const parsedFilteredStudentLessonsArray=filteredStudentLessonsArray.map((lesson)=>{
                
               
               return {"studentId": lesson.studentId,
@@ -36,13 +39,18 @@ export const Dashboard = ()=>{
                     }
             
             })
-            setStudentLessons(parsedStudentLessonsArray) 
-        })
-       
-        
             
-    },[])
+            setStudentLessons(parsedFilteredStudentLessonsArray ) 
+        })
+        .then(setRefilter(false))      
+    }
+
     useEffect(()=>{
+        getParsedFilteredStudentLessons(studentObjectId)
+    },[refilter])
+
+    useEffect(()=>{
+        getParsedFilteredStudentLessons(studentObjectId)
         getStudentCourses(studentObjectId)
         .then((studentCoursesArray)=>{
             const parsedStudentCoursesArray=studentCoursesArray.map(
@@ -61,7 +69,23 @@ export const Dashboard = ()=>{
             )
             setStudentCourses(parsedStudentCoursesArray)})
     },[])
-   
+    
+    const CompleteLesson=(event, lessonId)=>{
+        event.preventDefault()
+        return(
+            fetch(`http://localhost:8088/studentLessons/${lessonId}`,{
+                method:"PATCH",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify({complete: true})
+            })
+            .then(r=>r.json())
+            .then(navigate("/"))
+            
+        )
+
+    }
     
     return(
         <React.Fragment>
@@ -97,6 +121,13 @@ export const Dashboard = ()=>{
                             </td>
                             <td>
                                 {format(lesson.dueDate, 'eee MMM do')}
+                            </td>
+                            <td>
+                                <button className="complete" onClick={(clickEvent)=>
+                                    {CompleteLesson(clickEvent, lesson.id) 
+                                        setRefilter(true)}}>
+                                        Complete!
+                                </button>
                             </td>
                         
                         </tr>

@@ -1,5 +1,27 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  color: #3F0968;
+  font-family: 'Hind Siliguri', sans-serif;
+  background-color: #BFE8DB;
+}
+button{
+  background-color:#FCA03A;
+  color: #3F0968;
+  font-weight: 600;
+  
+  margin: 10px;
+  border-radius: 8px;
+  border-color: #3bceac50;
+}
+select{
+  color: #3F0968;
+  margin: 10px;
+}
+input{
+  color: #3F0968;
+  margin: 10px;
+}
+h1,h2,h3{
+  font-family: 'Indie Flower', cursive;
 }

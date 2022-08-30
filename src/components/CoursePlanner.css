@@ -4,15 +4,18 @@
     justify-content: space-evenly;
 }
 .lessonContainer {
-    border: 1px dotted #3BCEAC;
+    border: 1px dotted #FFA039;
     padding: 1em;
     margin: 0.5em;
 }
 th {
-    border-bottom: 1px solid #EE4266;
+    border-bottom: 1px solid #8B1860;
   }
 td {
     padding: 1em;
     max-width: 20em;
    
   }
+h1,h2,h3{
+  font-family: 'Indie Flower', cursive;
+}

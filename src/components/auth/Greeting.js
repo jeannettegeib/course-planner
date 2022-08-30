@@ -14,7 +14,7 @@ export const Greeting= ()=>{
         [studentObject]
      )
      return(
-        <div>{updateGreeting(studentObject)}</div>
+        <h2>{updateGreeting(studentObject)}</h2>
      )
 
     }

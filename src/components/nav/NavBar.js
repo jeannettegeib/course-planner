@@ -10,9 +10,7 @@ export const NavBar = () => {
             <li className="navbar__item active">
                 <Link className="navbar__link" to="/addClass">Add a Course</Link>
             </li>
-            <li className="navbar__item active">
-                <Link className="navbar__link" to="/updateGoal">Update Learning Goals</Link>
-            </li>
+            
            
             {
                 localStorage.getItem("planner_student")
