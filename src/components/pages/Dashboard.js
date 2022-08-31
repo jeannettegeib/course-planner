@@ -6,10 +6,13 @@ import "../CoursePlanner.css"
 
 
 export const Dashboard = ()=>{
+    //State 1
     const [studentLessons, setStudentLessons]=useState([])
+    //State 2
     const [studentCourses, setStudentCourses]=useState([])
     //State 3
     const [refilter, setRefilter]=useState(false)
+    
     const navigate = useNavigate()
     const loggedInStudent=localStorage.getItem("planner_student")
     const studentObject=JSON.parse(loggedInStudent)

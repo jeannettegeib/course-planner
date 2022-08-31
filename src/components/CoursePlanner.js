@@ -9,7 +9,7 @@ import { NavBar } from "./nav/NavBar"
 import { AddClass } from "./pages/AddClass"
 import { Dashboard } from "./pages/Dashboard"
 import { UpdateGoal } from "./pages/UpdateGoal"
-import logo from "../../course-planner-logo.png"
+import logo from "../course-planner-logo.png"
 import { Container } from "react-bootstrap"
 
 
