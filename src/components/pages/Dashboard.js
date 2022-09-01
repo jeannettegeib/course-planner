@@ -3,6 +3,7 @@ import { getStudentLessons, getStudentCourses } from "../APIManager";
 import { format, parse, parseJSON } from 'date-fns'
 import { useNavigate } from "react-router-dom"
 import "../CoursePlanner.css"
+import { CompletionChart } from "./CompletionChart";
 
 
 export const Dashboard = ()=>{
@@ -12,7 +13,7 @@ export const Dashboard = ()=>{
     const [studentCourses, setStudentCourses]=useState([])
     //State 3
     const [refilter, setRefilter]=useState(false)
-    
+
     const navigate = useNavigate()
     const loggedInStudent=localStorage.getItem("planner_student")
     const studentObject=JSON.parse(loggedInStudent)
@@ -97,7 +98,10 @@ export const Dashboard = ()=>{
         {
             studentCourses.map((course)=>{
                 return <div className="course lessonContainer">
-                    <h3><center>{course.course.name}</center></h3>
+                    <div className="courseTitle">
+                        <h2>{course.course.name}</h2>
+                        <CompletionChart pendingLessons={studentLessons} student={studentObject} />
+                    </div>
                     <div>
                         Your target completion date is <b>{format(course.targetDate, 'MMM dd, y')}</b> 
                         <button 
@@ -129,7 +133,7 @@ export const Dashboard = ()=>{
                                 <button className="complete" onClick={(clickEvent)=>
                                     {CompleteLesson(clickEvent, lesson.id) 
                                         setRefilter(true)}}>
-                                        Complete!
+                                        Completed!
                                 </button>
                             </td>
                         

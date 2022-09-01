@@ -19,3 +19,11 @@ td {
 h1,h2,h3{
   font-family: 'Indie Flower', cursive;
 }
+ .chart {
+  height: 200px;
+  width: 200px;
+}
+.courseTitle{
+  display: flex;
+  justify-content: space-evenly;
+}

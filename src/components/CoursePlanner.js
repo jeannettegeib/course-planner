@@ -25,11 +25,11 @@ export const CoursePlanner=()=>{
                 <Authorized>
                     <Container>
                         <NavBar />
-                        <h1><center>
+                        <center>
                         <img src={logo} /></center>
                         {studentObject ? <Greeting />:""}
                         
-                        </h1>
+                        
                         {studentObject ? <Dashboard />:""}
                         <Outlet />
                     </Container>
