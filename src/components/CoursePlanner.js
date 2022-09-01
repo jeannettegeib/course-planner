@@ -1,4 +1,5 @@
 import React from "react"
+
 import { Outlet, Route, Routes } from "react-router-dom"
 import { Authorized } from "./auth/Authorized"
 import { Greeting } from "./auth/Greeting"
@@ -6,7 +7,10 @@ import { Login } from "./auth/Login"
 import { Register } from "./auth/Register"
 import { NavBar } from "./nav/NavBar"
 import { AddClass } from "./pages/AddClass"
-import { UpdateGoals } from "./pages/UpdateGoals"
+import { Dashboard } from "./pages/Dashboard"
+import { UpdateGoal } from "./pages/UpdateGoal"
+import logo from "../course-planner-logo.png"
+import { Container } from "react-bootstrap"
 
 
 export const CoursePlanner=()=>{
@@ -19,19 +23,22 @@ export const CoursePlanner=()=>{
             <Route path="/register" element={<Register />} />
             <Route path="/" element={
                 <Authorized>
-                    <React.Fragment>
+                    <Container>
                         <NavBar />
-                        <h1 className="title--main">Course Planner</h1>
+                        <center>
+                        <img src={logo} /></center>
                         {studentObject ? <Greeting />:""}
-                        <div>What will you learn today?</div>
+                        
+                        
+                        {studentObject ? <Dashboard />:""}
                         <Outlet />
-                    </React.Fragment>
+                    </Container>
                 </Authorized>
             }
             />
              
             <Route path="/addClass" element={<AddClass />} />
-            <Route path="/updateGoals" element={<UpdateGoals />} />
+            <Route path="/updateGoal/:studentCourseId" element={<UpdateGoal />} />
             
         </Routes>
         
