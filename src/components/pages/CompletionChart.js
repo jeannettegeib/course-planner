@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
-import {getStudentLessons} from "../APIManager";
+import {getStudentLessonsByCourseId} from "../APIManager";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 // 
-export const CompletionChart = ({pendingLessons, student})=>{
+export const CompletionChart = ({pendingLessons, student, courseId})=>{
 // ChartJS.overrides[type].plugins.legend.display=false
     const [lessons, setLessons]=useState([])
     const [numLessonsPending, setPending]=useState(0)
@@ -14,11 +14,12 @@ export const CompletionChart = ({pendingLessons, student})=>{
  
 
     useEffect(()=>{
-        getStudentLessons(student.id)
+        getStudentLessonsByCourseId(student.id, courseId)
         .then((lessonsArray)=>{
-            let numComplete = lessonsArray.length - pendingLessons.length
+            let thisCoursePendingLessons=pendingLessons.filter((lesson)=>lesson.courseId===courseId)
+            let numComplete = lessonsArray.length - thisCoursePendingLessons.length
             setComplete(numComplete)
-            let numPending =pendingLessons.length
+            let numPending =thisCoursePendingLessons.length
             setPending(numPending)
         })  
     },[pendingLessons])

@@ -13,8 +13,11 @@ export const Greeting= ()=>{
         },
         [studentObject]
      )
+
+    
+
      return(
-        <h2>{updateGreeting(studentObject)}</h2>
+        <h2>{updateGreeting(studentObject)} Here is your course schedule...</h2>
      )
 
     }

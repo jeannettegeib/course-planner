@@ -1,5 +1,5 @@
 import React from "react"
-
+import "bootstrap/dist/css/bootstrap.min.css";
 import { Outlet, Route, Routes } from "react-router-dom"
 import { Authorized } from "./auth/Authorized"
 import { Greeting } from "./auth/Greeting"
@@ -27,10 +27,9 @@ export const CoursePlanner=()=>{
                         <NavBar />
                         <center>
                         <img src={logo} /></center>
-                        {studentObject ? <Greeting />:""}
                         
                         
-                        {studentObject ? <Dashboard />:""}
+                        <Dashboard />
                         <Outlet />
                     </Container>
                 </Authorized>

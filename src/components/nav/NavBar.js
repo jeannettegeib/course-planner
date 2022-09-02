@@ -1,6 +1,7 @@
 import React from "react"
 import { Link, useNavigate } from "react-router-dom"
 import "./NavBar.css"
+import { Button } from "react-bootstrap"
 
 export const NavBar = () => {
     const navigate = useNavigate()
@@ -8,17 +9,17 @@ export const NavBar = () => {
     return (
         <ul className="navbar">
             <li className="navbar__item active">
-                <Link className="navbar__link" to="/addClass">Add a Course</Link>
+                <Button className="addClassButton" onClick={()=>{navigate("/addClass")}}>Add a Course</Button>
             </li>
             
            
             {
                 localStorage.getItem("planner_student")
                     ? <li className="navbar__item navbar__logout">
-                        <Link className="navbar__link" to="" onClick={() => {
+                        <Button className="logout-button" onClick={() => {
                             localStorage.removeItem("planner_student")
                             navigate("/", {replace: true})
-                        }}>Logout</Link>
+                        }}>Logout</Button>
                     </li>
                     : ""
             }

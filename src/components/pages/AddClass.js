@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react"
 import { getAllCourses, getStudentCourses, getLessonsByCourseId } from "../APIManager"
 import { useNavigate } from "react-router-dom"
-import { addBusinessDays, differenceInBusinessDays, format  } from 'date-fns'
+import { addDays, differenceInCalendarDays, format  } from 'date-fns'
+import { Container } from "react-bootstrap"
 
 const loggedInStudent = localStorage.getItem("planner_student")
 const studentObject = JSON.parse(loggedInStudent)
-const studentObjectId = studentObject.id
+const studentObjectId = studentObject?.id
 
 
 
@@ -59,7 +60,7 @@ export const AddClass = () => {
         evt.preventDefault()
         
         const today = new Date();
-        const totalSchoolDays= differenceInBusinessDays(new Date(selectedDate), today);
+        const totalSchoolDays= differenceInCalendarDays(new Date(selectedDate), today);
         const lessonCount=lessonsByCourseId.length;
         const daysPerLesson= Math.floor(totalSchoolDays/lessonCount);
 
@@ -74,7 +75,7 @@ export const AddClass = () => {
             studentId: studentObjectId,
             lessonId: lesson.id,
             courseId: selectedCourse,
-            dueDate: ((i===0) ? dayDue=addBusinessDays(today, daysPerLesson) : dayDue=addBusinessDays(dayDue, daysPerLesson)),
+            dueDate: ((i===0) ? dayDue=addDays(today, daysPerLesson) : dayDue=addDays(dayDue, daysPerLesson)),
             complete: false
         })})
 
@@ -106,10 +107,10 @@ export const AddClass = () => {
 
     return (
         <React.Fragment>
-            <h2>Add a New Course Plan</h2>
+            <Container className="AddCourse">
+            <h1>Add a New Course Plan</h1>
             <div className="quote">"The mind, once stretched by a new idea, never returns to its original dimensions." Ralph Waldo Emerson</div>
-            <div>Today is  </div>
-            <br></br>
+            <div className="addClassForm">
             <fieldset>
                 <section className="courseOptions">
                     <label>Choose a Course:</label>
@@ -139,18 +140,19 @@ export const AddClass = () => {
                 </section>
             </fieldset>
             
-            <button 
-            onClick={(clickEvent)=>handleSaveButtonClick(clickEvent)} 
-            className="btn btn-primary">
-                Save Selection
-                </button>
             
-            <br></br>
-            You are enrolled in the following course(s)
+            <button
+            onClick={(clickEvent)=>handleSaveButtonClick(clickEvent)} 
+            className="saveClass">
+                Save
+                </button>
+            </div>
+            <div className="currentCourses">
+            <h3>You are enrolled in the following course(s)</h3>
             {
                 enrolledCourses.map((enrolledCourse) => {
                     return <section>
-                        <div>
+                        <div className="courseList">
                             {enrolledCourse.course.name}
                         </div>
                     </section>
@@ -158,6 +160,8 @@ export const AddClass = () => {
 
                 )
             }
+            </div>
+            </Container>
         </React.Fragment>
     )
 }

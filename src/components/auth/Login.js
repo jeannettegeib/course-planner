@@ -1,6 +1,9 @@
 import React, { useState } from "react"
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom"
+import { Container }  from "react-bootstrap";
+import logo from "../../course-planner-logo.png"
+
 // import "./Login.css"
 
 export const Login = () => {
@@ -30,9 +33,10 @@ export const Login = () => {
 
     return (
         <main className="container--login">
-            <section>
+            <Container>
                 <form className="form--login" onSubmit={handleLogin}>
-                    <h1>Course Planner</h1>
+                    <h1><center>
+                        <img src={logo} /></center></h1>
                     <h2>Please sign in</h2>
                     <fieldset>
                         <label htmlFor="inputEmail"> Email address </label>
@@ -49,10 +53,10 @@ export const Login = () => {
                         </button>
                     </fieldset>
                 </form>
-            </section>
-            <section className="link--register">
+            </Container>
+            <Container className="link--register">
                 <Link to="/register">Not a member yet?</Link>
-            </section>
+            </Container>
         </main>
     )
 }

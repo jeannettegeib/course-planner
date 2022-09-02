@@ -7,6 +7,8 @@
     border: 1px dotted #FFA039;
     padding: 1em;
     margin: 0.5em;
+    background-color: #BFE8DB;
+    max-width: 450px;
 }
 th {
     border-bottom: 1px solid #8B1860;
@@ -26,4 +28,32 @@ h1,h2,h3{
 .courseTitle{
   display: flex;
   justify-content: space-evenly;
+}
+.saveClass, .updateGoal{
+  font-size: 12px;
+}
+.quote{
+  font-family: 'Indie Flower', cursive;
+  font-size: small;
+}
+.addClassForm, .form-group{
+  display: flex;
+  margin: 10px;
+  margin-top: 25px;
+}
+.currentCourses{
+  border: 1px dotted #FFA039;
+  border-radius: 5px;
+  position: relative;
+  top: 50px;
+  padding: 10px;
+}
+.AddCourse, .update{
+  margin-top: 20px;
+}
+.courseList{
+  margin-left: 15px;
+}
+.form-control{
+  max-width: 150px;
 }

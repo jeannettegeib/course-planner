@@ -2,6 +2,7 @@ import { addBusinessDays, differenceInBusinessDays, format, parse, parseJSON } f
 import React, { useEffect, useState } from "react"
 import {useNavigate, useParams} from "react-router-dom"
 import { getStudentLessonsByCourseId, getThisStudentCourse } from "../APIManager"
+import { Container } from "react-bootstrap"
 
 
 export const UpdateGoal=()=>{
@@ -9,16 +10,7 @@ export const UpdateGoal=()=>{
     const navigate = useNavigate()
     console.log("student course id",studentCourseId)
     //State 1
-    const [course, updateCourse]=useState({
-            courseId: 0,
-            studentId: 0,
-            targetDate: Date,
-            id: 0,
-            course: {
-              id: 0,
-              name: ""
-            }
-    })
+    const [course, updateCourse]=useState({})
     //State 2
     const [studentLessons, setStudentLessons]=useState([])
 
@@ -28,22 +20,23 @@ export const UpdateGoal=()=>{
     
     useEffect(()=>{
         getThisStudentCourse(studentCourseId)
-        .then((course)=>{
-            updateCourse(course)
-        }
-            )
+        .then((courseArray)=>{
+            updateCourse(courseArray)
+        })
 
     },
-    [studentCourseId]
+    []
     )
 
-
+console.log("course.courseId",course.courseId)
 
     useEffect(
         ()=>{
-            getStudentLessonsByCourseId(studentObjectId, studentCourseId)
-            .then((studentLessonsArray)=>{setStudentLessons(studentLessonsArray)})
-        },[studentObjectId]
+            getStudentLessonsByCourseId(studentObjectId, course.courseId)
+            .then((studentLessonsArray)=>{
+                studentLessonsArray.sort((a,b)=>(a.lesson.order > b.lesson.order)? 1 : -1)
+                setStudentLessons(studentLessonsArray)})
+        },[course.courseId]
     )
    
         const today = new Date();
@@ -71,8 +64,8 @@ export const UpdateGoal=()=>{
 
             populateStudentLessons.push({
             studentId: studentObjectId,
-            lessonId: lesson.id,
-            courseId: studentCourseId,
+            lessonId: lesson.lessonId,
+            courseId: +lesson.courseId,
             dueDate: ((i===0) ? dayDue=addBusinessDays(today, daysPerLesson) : dayDue=addBusinessDays(dayDue, daysPerLesson)),
             complete: lesson.complete,
             id: lesson.id
@@ -98,7 +91,10 @@ export const UpdateGoal=()=>{
 
     return(
         <React.Fragment>
-        <h2>Update your Learning Goals for {course.course.name}</h2>
+        <Container>
+        <h2 className="update">Update your Learning Goals for {course?.course?.name}</h2>
+        <div className="quote">"Being a student is easy. Learning requires actual work." —William Crawford</div>
+
         
                 <div className="form-group">
                     <label>Update your target completion date: </label>
@@ -115,16 +111,11 @@ export const UpdateGoal=()=>{
                             }
                         } /> 
                 <button 
-            onClick={(clickEvent)=>handleSaveButtonClick(clickEvent)} className="btn btn-primary">
+            onClick={(clickEvent)=>handleSaveButtonClick(clickEvent)} className="updateGoal">
                 Save
             </button>
             </div>
-
-            
-            <br></br>
-            <div className="quote">"Being a student is easy. Learning requires actual work." —William Crawford</div>
-                
-        
+            </Container>
         </React.Fragment>
     )
 }

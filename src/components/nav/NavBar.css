@@ -12,4 +12,7 @@
 .navbar__logout {
     margin-left: auto;
 }
-
+.logout-button, .addClassButton{
+    background-color: #8B1860;
+    border-color: #8B1860;
+}
