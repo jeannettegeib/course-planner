@@ -10,5 +10,5 @@
  <li>React.js</li>
  <li>Chart.js</li>
  <li>Date-fns</li>
- <li>JSON server</li>
+ <li>JSON server with seed data available here https://github.com/jeannettegeib/course-planner-api</li>
 </ul>
